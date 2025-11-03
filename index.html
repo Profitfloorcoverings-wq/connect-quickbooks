@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting to QuickBooks | BillyBot</title>
+  <meta http-equiv="refresh" content="0; url=https://appcenter.intuit.com/connect/oauth2?response_type=code&client_id=AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF&redirect_uri=https%3A%2F%2Ftradiebrain.app.n8n.cloud%2Fwebhook%2Fonboard%2Fquickbooks%2Fcallback&scope=com.intuit.quickbooks.accounting%20openid%20profile%20email&state=">
   <script>
     const params = new URLSearchParams(window.location.search);
-    const state = params.get("state") || "billybot";
-
-    const clientId = "AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF";
-    const redirectUri = encodeURIComponent("https://tradiebrain.app.n8n.cloud/webhook/onboard/quickbooks/callback");
-    const scope = encodeURIComponent("com.intuit.quickbooks.accounting openid profile email");
-    
-    const authUrl = `https://appcenter.intuit.com/connect/oauth2?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}`;
-
-    window.location.href = authUrl;
+    const state = params.get("state");
+    if (state) {
+      const redirectUrl = `https://appcenter.intuit.com/connect/oauth2?response_type=code&client_id=AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF&redirect_uri=https%3A%2F%2Ftradiebrain.app.n8n.cloud%2Fwebhook%2Fonboard%2Fquickbooks%2Fcallback&scope=com.intuit.quickbooks.accounting%20openid%20profile%20email&state=${encodeURIComponent(state)}`;
+      window.location.href = redirectUrl;
+    }
   </script>
 </head>
 <body>
   <p>Redirecting to QuickBooks...</p>
 </body>
 </html>
+
