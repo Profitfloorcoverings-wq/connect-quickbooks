@@ -4,12 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting to QuickBooks | BillyBot</title>
-  <!-- Meta redirect works even in in-app browsers -->
-  <meta http-equiv="refresh"
-        content="0; url=https://appcenter.intuit.com/connect/oauth2?response_type=code&client_id=AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF&redirect_uri=https%3A%2F%2Ftradiebrain.app.n8n.cloud%2Fwebhook%2Fonboard%2Fquickbooks%2Fcallback&scope=com.intuit.quickbooks.accounting%20openid%20profile%20email&state=billybot">
+  <script>
+    // Extract ?state= from the URL (fallback: billybot)
+    const params = new URLSearchParams(window.location.search);
+    const state = params.get("state") || "billybot";
+
+    // QuickBooks app Client ID (Production)
+    const clientId = "AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF";
+
+    // Registered callback URL in QuickBooks Developer
+    const redirectUri = encodeURIComponent("https://tradiebrain.app.n8n.cloud/webhook/onboard/quickbooks/callback");
+
+    // Scopes required for BillyBot
+    const scope = encodeURIComponent("com.intuit.quickbooks.accounting openid profile email");
+
+    // Build full QuickBooks OAuth URL
+    const url = `https://appcenter.intuit.com/connect/oauth2?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${encodeURIComponent(state)}`;
+
+    // Redirect user immediately
+    window.location.href = url;
+  </script>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; padding: 2rem;">
-  <p>Redirecting to QuickBooks…</p>
-  <p>If it doesn’t happen automatically, <a href="https://appcenter.intuit.com/connect/oauth2?response_type=code&client_id=AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF&redirect_uri=https%3A%2F%2Ftradiebrain.app.n8n.cloud%2Fwebhook%2Fonboard%2Fquickbooks%2Fcallback&scope=com.intuit.quickbooks.accounting%20openid%20profile%20email&state=billybot">tap here</a>.</p>
+<body>
+  <p>Redirecting to QuickBooks...</p>
 </body>
 </html>
