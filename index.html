@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting to QuickBooks | BillyBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connecting QuickBooks | BillyBot</title>
   <script>
-    // Extract ?state= from the URL (fallback: billybot)
-    const params = new URLSearchParams(window.location.search);
-    const state = params.get("state") || "billybot";
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const state = params.get("state") || "billybot";
 
-    // QuickBooks app Client ID (Production)
-    const clientId = "AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF";
+      const clientId = "AB9AeUAIrklbynpKQvCDY4fW05Ul2Hf6nicOTSRNA0DaKInxmF";
+      const redirectUri = encodeURIComponent("https://tradiebrain.app.n8n.cloud/webhook/onboard/quickbooks/callback");
+      const scope = encodeURIComponent("com.intuit.quickbooks.accounting openid profile email");
 
-    // Registered callback URL in QuickBooks Developer
-    const redirectUri = encodeURIComponent("https://tradiebrain.app.n8n.cloud/webhook/onboard/quickbooks/callback");
+      const oauthUrl =
+        `https://appcenter.intuit.com/connect/oauth2?response_type=code` +
+        `&client_id=${clientId}` +
+        `&redirect_uri=${redirectUri}` +
+        `&scope=${scope}` +
+        `&state=${encodeURIComponent(state)}`;
 
-    // Scopes required for BillyBot
-    const scope = encodeURIComponent("com.intuit.quickbooks.accounting openid profile email");
-
-    // Build full QuickBooks OAuth URL
-    const url = `https://appcenter.intuit.com/connect/oauth2?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${encodeURIComponent(state)}`;
-
-    // Redirect user immediately
-    window.location.href = url;
+      // Wait a fraction before navigating (fixes mobile cookie init race)
+      setTimeout(() => {
+        window.location.replace(oauthUrl);
+      }, 600);
+    });
   </script>
 </head>
-<body>
-  <p>Redirecting to QuickBooks...</p>
+<body style="font-family:Arial, sans-serif; text-align:center; padding:2rem;">
+  <p>Connecting to QuickBooks…</p>
 </body>
 </html>
